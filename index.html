@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrot AI Hands-on</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+  <style>
+    :root {
+      --carrot-teal: #007A7D;
+      --carrot-orange: #C76D00;
+      --carrot-dark: #0f172a;
+      --carrot-muted: #64748b;
+      --carrot-bg: #ffffff;
+      --carrot-accent: #003399;
+    }
+    .reveal {
+      font-family: system-ui, -apple-system, sans-serif;
+      color: var(--carrot-dark);
+    }
+    .reveal h1, .reveal h2, .reveal h3 {
+      color: var(--carrot-teal);
+      text-transform: none;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .reveal h1 { font-size: 2.4em; }
+    .reveal h2 { font-size: 1.6em; }
+    .reveal h3 { font-size: 1.2em; color: var(--carrot-orange); }
+    .reveal p, .reveal li { font-size: 0.75em; line-height: 1.6; }
+    .reveal .subtitle { color: var(--carrot-muted); font-size: 0.9em; margin-top: -10px; }
+    .reveal .highlight { color: var(--carrot-orange); font-weight: 600; }
+    .reveal .teal { color: var(--carrot-teal); }
+    .reveal .muted { color: var(--carrot-muted); font-size: 0.65em; }
+    .reveal table { font-size: 0.65em; margin: 0 auto; border-collapse: collapse; }
+    .reveal table th { background: var(--carrot-teal); color: white; padding: 8px 16px; }
+    .reveal table td { padding: 8px 16px; border-bottom: 1px solid #e2e8f0; }
+    .reveal table tr:nth-child(even) { background: #f8fafc; }
+    .reveal code {
+      background: #f1f5f9;
+      color: var(--carrot-teal);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+    .reveal .tip-box {
+      background: #f0fdfa;
+      border-left: 4px solid var(--carrot-teal);
+      padding: 16px 20px;
+      text-align: left;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+    .reveal .warning-box {
+      background: #fffbeb;
+      border-left: 4px solid var(--carrot-orange);
+      padding: 16px 20px;
+      text-align: left;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+    .reveal .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      text-align: left;
+    }
+    .reveal .section-title { background: var(--carrot-teal); color: white; }
+    .reveal .section-title h2 { color: white; }
+    .reveal .section-title .subtitle { color: rgba(255,255,255,0.8); }
+    .reveal ul { list-style: none; padding-left: 0; }
+    .reveal ul li::before { content: "→ "; color: var(--carrot-teal); font-weight: bold; }
+    .slide-number { color: var(--carrot-muted) !important; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ================================================================
+           ABERTURA — Hook + Agenda (5 min)
+           ================================================================ -->
+
+      <section>
+        <h1>Carrot AI Hands-on</h1>
+        <p class="subtitle">Introdução para a equipe</p>
+        <p class="muted">Abril 2026</p>
+        <aside class="notes">Boas-vindas rápidas. Não se demore aqui — vá direto para a demo.</aside>
+      </section>
+
+      <section>
+        <h2>Vamos começar com uma demo</h2>
+        <p>Imagine que alguém escreveu este texto sobre a Carrot:</p>
+        <div class="warning-box" style="font-size: 0.8em;">
+          <p><em>"A Carrot é uma startup inovadora que usa blockchain para salvar o planeta. Nossos clientes fazem parte de uma revolução verde que vai mudar tudo."</em></p>
+        </div>
+        <p>Vamos pedir ao Claude para revisar. No Claude Code Desktop com a pasta Carrot-AI:</p>
+        <div class="tip-box" style="font-size: 0.8em;">
+          <p>"Revisa este texto e me diz se está alinhado com a voz da marca Carrot: 'A Carrot é uma startup inovadora que usa blockchain para salvar o planeta. Nossos clientes fazem parte de uma revolução verde que vai mudar tudo.'"</p>
+        </div>
+        <p class="muted">Observe o Claude ler as regras da marca, identificar os problemas e reescrever. Isso é um agente em ação.</p>
+        <aside class="notes">DEMO AO VIVO ~3 min. O texto tem erros propositais: "startup" (é foundation), "salvar o planeta" (overclaim), "revolução" (agressivo), centra a marca (viola guardrails). O Claude vai ler brand.md, guardrails.md, flagrar cada erro e reescrever. O antes/depois é o "wow moment". Se der erro, não tem problema — mostre como lidar.</aside>
+      </section>
+
+      <section>
+        <h2>Agenda</h2>
+        <ol style="font-size: 0.75em; list-style: decimal; padding-left: 1.5em;">
+          <li>Conceitos essenciais — o mínimo para começar</li>
+          <li>Claude Code — a ferramenta e como configurar</li>
+          <li><strong>Hands-on 1</strong> — setup e exploração</li>
+          <li>Comunicar com IA — como escrever bons pedidos</li>
+          <li><strong>Hands-on 2</strong> — tarefa real, juntos</li>
+          <li>A pasta Carrot-AI — o que é e como funciona</li>
+          <li>Dicas e próximos passos</li>
+        </ol>
+        <p class="muted">Perguntas a qualquer momento. Vamos alternar entre teoria e prática.</p>
+        <aside class="notes">Destaque que o formato alterna teoria e prática — ninguém vai ficar só ouvindo por 40 min.</aside>
+      </section>
+
+      <!-- ================================================================
+           BLOCO 1 — Conceitos essenciais (10 min)
+           ================================================================ -->
+
+      <section class="section-title">
+        <h2>1. Conceitos essenciais</h2>
+        <p class="subtitle">O mínimo para entender o que vamos usar</p>
+        <aside class="notes">~10 min para este bloco. O objetivo é nivelar, não aprofundar.</aside>
+      </section>
+
+      <section>
+        <h2>Chat vs Agente — a distinção que importa</h2>
+        <div class="two-col">
+          <div>
+            <h3>Chat / Assistente</h3>
+            <ul>
+              <li>Você pergunta, ele responde</li>
+              <li>Você guia cada passo</li>
+              <li>Não age sozinho — você copia o resultado</li>
+            </ul>
+            <p class="muted" style="margin-top: 10px;">Ex: Claude Chat, ChatGPT, Gemini</p>
+          </div>
+          <div>
+            <h3>Agente</h3>
+            <ul>
+              <li>Você dá um objetivo, ele resolve</li>
+              <li>Planeja, usa ferramentas, executa ações</li>
+              <li>Lê e edita arquivos, acessa Notion, etc.</li>
+            </ul>
+            <p class="muted" style="margin-top: 10px;">Ex: Claude Code, Codex, Cursor (Agent)</p>
+          </div>
+        </div>
+        <div class="tip-box" style="margin-top: 15px;">
+          <strong>Na prática:</strong> Um chat é como mandar mensagem para alguém pedindo ajuda. Um agente é como delegar uma tarefa — você diz o que quer e ele faz.
+        </div>
+        <aside class="notes">Este é o conceito central. Se a audiência entender só uma coisa, é esta. A demo anterior é o exemplo perfeito de agente.</aside>
+      </section>
+
+      <section>
+        <h2>Ferramentas de IA que usamos</h2>
+        <div class="two-col">
+          <div>
+            <h3>O cenário</h3>
+            <ul>
+              <li><span class="highlight">Claude</span> (Anthropic) — <strong>principal na Carrot</strong></li>
+              <li>ChatGPT (OpenAI) — disponível</li>
+              <li>Gemini (Google) — disponível</li>
+              <li>Cursor — editor com IA</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Quando usar o quê?</h3>
+            <ul>
+              <li><strong>Perguntas rápidas, tradução, resumos?</strong> Qualquer chat serve: ChatGPT, Gemini, Claude Chat</li>
+              <li><strong>Precisa de contexto da Carrot, ferramentas ou ações?</strong> Claude Code</li>
+            </ul>
+          </div>
+        </div>
+        <p class="muted" style="margin-top: 15px;">Todas as ferramentas estão disponíveis. Claude Code é a principal porque entende a Carrot e conecta com nossas ferramentas.</p>
+        <aside class="notes">Não se demore aqui — 1 min. O ponto é: para coisas simples, use qualquer uma. Para coisas da Carrot, Claude Code.</aside>
+      </section>
+
+      <section>
+        <h2>Limitações — o que a IA não faz bem</h2>
+        <div class="two-col">
+          <div>
+            <h3 style="color: #ef4444;">Cuidado com</h3>
+            <ul>
+              <li><strong>Alucinações</strong> — pode inventar fatos com confiança</li>
+              <li><strong>Sem memória entre chats</strong> — cada conversa começa do zero</li>
+              <li><strong>Conhecimento limitado</strong> — pode não saber eventos recentes</li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="color: #19B368;">Como lidar</h3>
+            <ul>
+              <li>Sempre verifique dados importantes</li>
+              <li>Para informações da Carrot, ele usa as ferramentas (MCPs)</li>
+              <li>Decisões finais — especialmente compliance e comunicação — são suas</li>
+            </ul>
+          </div>
+        </div>
+        <div class="warning-box" style="margin-top: 15px;">
+          <strong>Regra de ouro:</strong> O Claude é um assistente, não uma fonte de verdade. Quanto mais importante a informação, mais você deve verificar.
+        </div>
+        <aside class="notes">Essencial para calibrar expectativas logo no início. Evita frustração depois.</aside>
+      </section>
+
+      <!-- ================================================================
+           BLOCO 2 — Claude Code: o essencial (10 min)
+           ================================================================ -->
+
+      <section class="section-title">
+        <h2>2. Claude Code</h2>
+        <p class="subtitle">O essencial para começar a usar</p>
+        <aside class="notes">~10 min. Só o que eles precisam para o Hands-on 1. Detalhes (modelos, modos) vêm depois.</aside>
+      </section>
+
+      <section>
+        <h2>O ecossistema Claude</h2>
+        <div class="two-col">
+          <div>
+            <h3>Claude Chat</h3>
+            <p>Chat na web (claude.ai). Para perguntas rápidas, conversas gerais. Todos podem usar.</p>
+          </div>
+          <div>
+            <h3>Claude Code</h3>
+            <p>Agente completo. Acessa arquivos, usa ferramentas (Notion, Docs), segue regras da marca. <strong>A ferramenta principal da Carrot.</strong></p>
+          </div>
+        </div>
+        <div class="tip-box" style="margin-top: 15px;">
+          <strong>Claude Code roda na Desktop App</strong> (recomendado para a equipe), no CLI (engenharia) e na web. As três usam o mesmo modelo — a diferença é só a interface.
+        </div>
+        <aside class="notes">Simplifique: Chat = pergunta/resposta. Code = delega tarefas. Desktop App é o caminho para não-engenheiros.</aside>
+      </section>
+
+      <section>
+        <h2>Projetos — como o Claude "entende" contexto</h2>
+        <p>Um <strong>projeto</strong> é uma pasta que o Claude Code abre e "entende".</p>
+        <div class="tip-box">
+          <strong>O projeto Carrot-AI dá ao Claude:</strong>
+          <ul>
+            <li>Contexto sobre a Carrot (missão, produtos, marca)</li>
+            <li>Regras de comunicação e voz da marca</li>
+            <li>Acesso a ferramentas (Notion, Carrot Docs)</li>
+            <li>Comandos prontos (<code>/setup</code>, <code>/help</code>)</li>
+          </ul>
+        </div>
+        <div class="warning-box">
+          <strong>Para conversas simples</strong> (sem contexto da Carrot), use o Claude Chat em claude.ai.
+        </div>
+        <aside class="notes">Mostre na tela como abrir um projeto na Desktop App — aponte para a pasta Carrot-AI no Google Drive.</aside>
+      </section>
+
+      <section>
+        <h2>Conceitos que vamos usar agora</h2>
+        <div class="two-col">
+          <div>
+            <h3>Prompt</h3>
+            <p>A mensagem que você envia ao Claude. Pode ser uma pergunta, um pedido ou uma instrução.</p>
+            <h3>MCP</h3>
+            <p><em>Model Context Protocol</em> — conecta o Claude a ferramentas externas (Notion, Carrot Docs, etc.).</p>
+          </div>
+          <div>
+            <h3>Token</h3>
+            <p>A unidade que o modelo processa. ~1 token ≈ 1 palavra. Conversas longas usam mais tokens.</p>
+            <h3>Context Window</h3>
+            <p>A "memória" do Claude em uma conversa. Tem limite — quando esgota, mensagens antigas são resumidas e podem perder detalhes.</p>
+          </div>
+        </div>
+        <p class="muted">Não precisa decorar. Vamos ver tudo isso em ação agora.</p>
+        <aside class="notes">Rápido — 1 min. Esses termos vão aparecer no /context e /setup. Definir antes para que não sejam obstáculos.</aside>
+      </section>
+
+      <!-- ================================================================
+           HANDS-ON 1 — Setup e exploração (10 min)
+           ================================================================ -->
+
+      <section class="section-title">
+        <h2>Hands-on 1</h2>
+        <p class="subtitle">Setup e exploração — vamos abrir juntos</p>
+        <aside class="notes">~10 min. Faça junto com a audiência. Vá devagar. Pergunte "Quem já abriu? Levanta a mão." a cada passo.</aside>
+      </section>
+
+      <section>
+        <h2>Passo 1 — Abrir o projeto</h2>
+        <ol style="font-size: 0.75em; list-style: decimal; padding-left: 1.5em; text-align: left; max-width: 600px; margin: 0 auto;">
+          <li>Abra o <strong>Claude Code Desktop</strong></li>
+          <li>Abra a pasta <strong>Carrot-AI</strong> do Google Drive como projeto</li>
+          <li>Escreva: <code>/setup</code></li>
+          <li>Veja o resultado — quais ferramentas estão disponíveis?</li>
+        </ol>
+        <div class="warning-box" style="margin-top: 15px;">
+          <strong>Problemas?</strong> Levante a mão — vamos resolver juntos. Enquanto isso, olhe a tela do facilitador.
+        </div>
+        <aside class="notes">FACILITADOR: faça /setup na sua tela enquanto eles fazem. Circule pela sala. Se alguém travar, peça para um vizinho ajudar. Checkpoint: "Quem viu a lista de ferramentas?"</aside>
+      </section>
+
+      <section>
+        <h2>Passo 2 — Explorar o contexto</h2>
+        <ol style="font-size: 0.75em; list-style: decimal; padding-left: 1.5em; text-align: left; max-width: 600px; margin: 0 auto;">
+          <li>Escreva: <code>/help</code> — veja o que o Claude pode fazer neste projeto</li>
+          <li>Escreva: <code>/context</code> — veja o que está carregado</li>
+          <li>Observe: quais <strong>rules</strong>, <strong>skills</strong> e <strong>MCPs</strong> aparecem?</li>
+        </ol>
+        <div class="tip-box" style="margin-top: 15px;">
+          O <code>/context</code> mostra o uso de tokens, ferramentas conectadas e instruções ativas. Você vai usar esse comando sempre que quiser entender o estado do Claude.
+        </div>
+        <aside class="notes">FACILITADOR: mostre o output do /context na sua tela. Aponte para: "Olha aqui os MCPs — Notion, Carrot Docs. Olha aqui os tokens — 8% de uso, bastante espaço." Checkpoint: "Todos viram o /context?"</aside>
+      </section>
+
+      <section>
+        <h2>Passo 3 — Modos e modelos</h2>
+        <ol style="font-size: 0.75em; list-style: decimal; padding-left: 1.5em; text-align: left; max-width: 600px; margin: 0 auto;">
+          <li>No rodapé, clique no <strong>seletor de modo</strong></li>
+          <li>Veja as opções: <strong>Ask permissions</strong> (recomendado), Auto accept, Plan mode</li>
+          <li>Volte para <strong>Ask permissions</strong></li>
+          <li>Clique no <strong>seletor de modelo</strong> — veja Sonnet, Opus, Haiku</li>
+          <li>Confira o <strong>nível de esforço</strong>: Low / Medium / High</li>
+        </ol>
+        <div class="tip-box" style="margin-top: 15px;">
+          <strong>Configuração recomendada:</strong> Ask permissions + Sonnet + High. Só mude se precisar.
+        </div>
+        <aside class="notes">FACILITADOR: mostre cada clique na sua tela. 2 min max. Não precisa explicar todos os modelos — só o essencial.</aside>
+      </section>
+
+      <!-- ================================================================
+           BLOCO 3 — Comunicar com IA (8 min)
+           ================================================================ -->
+
+      <section class="section-title">
+        <h2>3. Comunicar com IA</h2>
+        <p class="subtitle">Como escrever bons pedidos — antes de praticar</p>
+        <aside class="notes">~8 min. Este bloco prepara para o Hands-on 2. Ensine prompting ANTES de pedir que escrevam prompts.</aside>
+      </section>
+
+      <section>
+        <h2>Português ou Inglês?</h2>
+        <div class="two-col">
+          <div>
+            <h3>Português</h3>
+            <ul>
+              <li>Mais natural para a maioria da equipe</li>
+              <li>Claude responde em PT automaticamente</li>
+              <li>Perfeitamente válido para tarefas do dia a dia</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Inglês</h3>
+            <ul>
+              <li>Modelos treinados majoritariamente em EN</li>
+              <li>Termos técnicos mais precisos</li>
+              <li>Ligeiramente mais eficiente em tokens</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tip-box" style="margin-top: 20px;">
+          <strong>Recomendação:</strong> Use a língua em que você se sente mais confortável. A diferença é mínima. Termos técnicos (skill, agent, MCP, token) ficam em inglês.
+        </div>
+        <aside class="notes">1 min. Resposta curta: use o que for natural para você.</aside>
+      </section>
+
+      <section>
+        <h2>Como escrever bons prompts</h2>
+        <div class="two-col">
+          <div>
+            <h3 style="color: #ef4444;">Menos eficaz</h3>
+            <p>"Escreve um texto sobre reciclagem"</p>
+            <p>"Faz uma apresentação"</p>
+            <p>"Me ajuda com o marketing"</p>
+          </div>
+          <div>
+            <h3 style="color: #19B368;">Mais eficaz</h3>
+            <p>"Escreve um post de LinkedIn sobre o programa BOLD, focado em compradores corporativos, máximo 150 palavras"</p>
+            <p>"Cria uma apresentação de 5 slides sobre a Carrot para um investidor"</p>
+            <p>"Sugere 3 ideias de campanha para o Dia Mundial do Meio Ambiente"</p>
+          </div>
+        </div>
+        <div class="tip-box" style="margin-top: 20px;">
+          <strong>Regra simples:</strong> Dê contexto + especifique o resultado. Não precisa ser perfeito — pode refinar depois.
+        </div>
+        <aside class="notes">2 min. Leia os exemplos em voz alta. Peça à audiência: "Notem a diferença: o lado esquerdo é vago, o direito tem contexto, público e formato."</aside>
+      </section>
+
+      <section>
+        <h2>Preciso escrever prompts perfeitos?</h2>
+        <h3 style="color: var(--carrot-teal); font-size: 1.4em;">Não.</h3>
+        <ul>
+          <li><strong>Erros de escrita?</strong> — O Claude entende mesmo assim</li>
+          <li><strong>Frases incompletas?</strong> — Funciona</li>
+          <li><strong>Misturar PT e EN?</strong> — Sem problema</li>
+          <li><strong>Não saber o termo técnico?</strong> — Descreva o que você quer</li>
+        </ul>
+        <div class="warning-box" style="margin-top: 20px;">
+          <strong>O que importa:</strong> Ser <em>específico</em> sobre o que você quer, não como escreve. "post LinkedIn BOLD 150 palavras comprador" funciona tão bem quanto uma frase completa.
+        </div>
+        <aside class="notes">1 min. Isso é importante para reduzir a ansiedade de performance. Muita gente trava achando que precisa escrever o prompt "certo".</aside>
+      </section>
+
+      <section>
+        <h2>Peça ajuda para estruturar</h2>
+        <p>Não sabe por onde começar? Peça ao Claude para ajudar a organizar as ideias antes de executar.</p>
+        <div class="tip-box" style="text-align: left;">
+          <p><strong>Exemplo:</strong> "Preciso criar uma campanha de marketing para o BOLD. Me ajuda a estruturar o que precisa ser feito?"</p>
+          <p style="margin-top: 10px;">O Claude vai:</p>
+          <ul>
+            <li>Fazer perguntas para entender o contexto</li>
+            <li>Sugerir uma estrutura e abordagens</li>
+            <li>Propor um plano antes de executar</li>
+          </ul>
+        </div>
+        <p class="muted">Dica avançada: use o comando <code>/brainstorming</code> para um processo guiado de ideação.</p>
+        <aside class="notes">2 min. Essa slide é chave para não-técnicos: você não precisa saber o que pedir. Peça ajuda para descobrir.</aside>
+      </section>
+
+      <!-- ================================================================
+           HANDS-ON 2 — Tarefa real (15 min)
+           ================================================================ -->
+
+      <section class="section-title">
+        <h2>Hands-on 2</h2>
+        <p class="subtitle">Tarefa real — vamos criar algo juntos</p>
+        <aside class="notes">~15 min. Esta é a parte principal do workshop. Não apresse.</aside>
+      </section>
+
+      <section>
+        <h2>Tarefa compartilhada — todos juntos</h2>
+        <p>Agora vamos ver o Claude <strong>buscar informação</strong>, não só gerar texto. Todos escrevam:</p>
+        <div class="tip-box" style="font-size: 0.85em;">
+          <p>"Busca na documentação da Carrot o que é dMRV e me explica de forma simples em 3 bullets, como se eu fosse explicar para um comprador que nunca ouviu falar"</p>
+        </div>
+        <ol style="font-size: 0.7em; list-style: decimal; padding-left: 1.5em; text-align: left; max-width: 600px; margin: 0 auto; margin-top: 15px;">
+          <li>Copie o prompt acima e envie ao Claude</li>
+          <li>Observe: ele vai <strong>usar a ferramenta Carrot Docs</strong> (MCP) para buscar a informação</li>
+          <li>Quando terminar, leia os 3 bullets</li>
+        </ol>
+        <div class="warning-box" style="margin-top: 15px;">
+          <strong>Repare na diferença:</strong> Na demo inicial, o Claude usou as <em>regras da marca</em>. Agora ele está <em>buscando informação em uma ferramenta externa</em>. São capacidades complementares.
+        </div>
+        <aside class="notes">FACILITADOR: ~4 min. Este é o "level 2" — a audiência vê o Claude chamando o MCP de Carrot Docs. Aponte na sua tela: "Olha, ele está buscando na documentação — não é algo que ele 'sabe', ele está indo buscar." Checkpoint: "Quem viu o Claude acessar a documentação?"</aside>
+      </section>
+
+      <section>
+        <h2>Compare com seu vizinho</h2>
+        <p>Vire para a pessoa ao lado e compartilhe:</p>
+        <div class="two-col">
+          <div>
+            <h3 style="color: var(--carrot-teal);">Discutam</h3>
+            <ul>
+              <li>A explicação ficou clara? Vocês usariam com um comprador?</li>
+              <li>O Claude foi buscar na documentação ou inventou?</li>
+              <li>O que vocês mudariam?</li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="color: var(--carrot-orange);">Experimente refinar</h3>
+            <ul>
+              <li>"Simplifica mais" ou "Agora faz uma versão em inglês"</li>
+              <li>"Adiciona um exemplo concreto de como o dMRV funciona"</li>
+              <li>Iterar é o poder do agente — não precisa acertar de primeira</li>
+            </ul>
+          </div>
+        </div>
+        <aside class="notes">FACILITADOR: 3 min para comparar. Pergunte: "Alguém pediu algo diferente ao refinar? O que?" Colete 2-3 respostas. Reforce: "Viram como é fácil refinar? Vocês não precisam acertar de primeira."</aside>
+      </section>
+
+      <section>
+        <h2>Exploração livre — sua vez</h2>
+        <p>Agora experimente algo da sua área. Algumas ideias:</p>
+        <div class="tip-box" style="text-align: left;">
+          <p><strong>Conteúdo:</strong> "Escreve um post de LinkedIn sobre o BOLD, 150 palavras, para compradores corporativos"</p>
+          <p><strong>Ferramentas (Notion):</strong> "Busca no Notion as últimas notas de reunião da minha equipe"</p>
+          <p><strong>Marca:</strong> "Qual é a diferença entre community-built e community-led?"</p>
+          <p><strong>Pesquisa:</strong> "Busca na documentação da Carrot sobre recycling credits e me faz um resumo"</p>
+          <p><strong>Estruturar:</strong> "Preciso preparar uma apresentação sobre X. Me ajuda a estruturar?"</p>
+        </div>
+        <p class="muted">Tem 5 minutos. Explore e depois compartilhamos os resultados.</p>
+        <aside class="notes">FACILITADOR: 5 min. Circule e observe o que as pessoas pedem — isso revela os casos de uso reais da equipe. Nos últimos 2 min: "Quem quer compartilhar?" Colete 2-3 exemplos.</aside>
+      </section>
+
+      <!-- ================================================================
+           BLOCO 4 — A pasta Carrot-AI (5 min)
+           ================================================================ -->
+
+      <section class="section-title">
+        <h2>4. A pasta Carrot-AI</h2>
+        <p class="subtitle">O que está por trás do que vocês acabaram de usar</p>
+        <aside class="notes">~5 min. Agora que eles já usaram, explicar o "por baixo" faz mais sentido.</aside>
+      </section>
+
+      <section>
+        <h2>O que é a pasta Carrot-AI?</h2>
+        <p>A pasta no Google Drive que contém tudo o que o Claude precisa para ajudar a equipe.</p>
+        <div class="two-col">
+          <div>
+            <h3>O que vocês acabaram de usar</h3>
+            <ul>
+              <li><strong>Instruções</strong> — o Claude sabe sobre a Carrot</li>
+              <li><strong>Regras da marca</strong> — por isso o tom do post ficou alinhado</li>
+              <li><strong>Ferramentas</strong> — Notion, Carrot Docs conectados</li>
+              <li><strong>Skills</strong> — /setup, /help, /brainstorming</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Como funciona</h3>
+            <ol style="font-size: 0.7em; list-style: decimal; padding-left: 1.5em;">
+              <li>Você abre a pasta como projeto</li>
+              <li>O Claude lê o <code>CLAUDE.md</code></li>
+              <li>Rules, MCPs e skills carregam automaticamente</li>
+              <li>Você só conversa</li>
+            </ol>
+            <p class="muted" style="margin-top: 10px;">Mantido pela engenharia. Usado por todos.</p>
+          </div>
+        </div>
+        <aside class="notes">Conecte com a experiência deles: "Quando vocês pediram o post do BOLD e o Claude já sabia o tom da marca — foi porque essa pasta tem as regras configuradas."</aside>
+      </section>
+
+      <section>
+        <h2>Estrutura da pasta</h2>
+        <pre style="text-align: left; font-size: 0.6em; background: #f8fafc; padding: 20px; border-radius: 8px; line-height: 1.6;"><code>Carrot-AI/
+  CLAUDE.md                    ← Instruções principais
+  .claude/
+    settings.json              ← Configuração de ferramentas (MCPs)
+    skills/                    ← Comandos: /setup, /help
+    rules/                     ← Voz da marca, comunicação
+  context/
+    brand/                     ← Brand guide completo
+    company.md                 ← Missão, produtos, equipe
+  docs/                        ← Glossário, guia de início
+  workspaces/                  ← Projetos por equipe
+  presentation/                ← Esta apresentação</code></pre>
+        <div class="tip-box" style="margin-top: 15px;">
+          <strong>Você não precisa mexer em nada.</strong> Basta abrir a pasta e usar. A engenharia mantém a configuração.
+        </div>
+        <aside class="notes">1 min. Mostre na tela mas não se aprofunde. O objetivo é dar uma noção da organização, não ensinar a estrutura.</aside>
+      </section>
+
+      <!-- ================================================================
+           BLOCO 5 — Dicas, troubleshooting e fechamento (10 min)
+           ================================================================ -->
+
+      <section class="section-title">
+        <h2>5. Dicas e próximos passos</h2>
+        <p class="subtitle">Para continuar usando com confiança</p>
+        <aside class="notes">~10 min. Referência rápida + call to action concreto.</aside>
+      </section>
+
+      <section>
+        <h2>Detalhes úteis</h2>
+        <div class="two-col">
+          <div>
+            <h3>Instruções (sob o capô)</h3>
+            <ul>
+              <li><code>CLAUDE.md</code> — manual principal do projeto</li>
+              <li><strong>Rules</strong> — regras automáticas (marca, tom)</li>
+              <li><strong>Skills</strong> — comandos reutilizáveis (/setup, /help)</li>
+              <li><strong>MCPs</strong> — conexões a ferramentas externas</li>
+            </ul>
+            <p class="muted">Tudo configurado pela engenharia. Você só usa.</p>
+          </div>
+          <div>
+            <h3>Quando começar um novo chat?</h3>
+            <ul>
+              <li><span style="color: #19B368;">Continue</span> — mesmo assunto, refinando resultado</li>
+              <li><span style="color: var(--carrot-orange);">Novo chat</span> — mudou de tema, +50% de tokens no <code>/context</code>, Claude confuso</li>
+            </ul>
+            <p class="muted">Regra prática: um assunto = um chat.</p>
+          </div>
+        </div>
+        <aside class="notes">2 min. Referência rápida. Não precisa explicar cada item — eles já viram em ação.</aside>
+      </section>
+
+      <section>
+        <h2>Erros comuns e troubleshooting</h2>
+        <div class="two-col">
+          <div>
+            <h3 style="color: #ef4444;">Evite</h3>
+            <ul>
+              <li>Pedidos vagos ("me ajuda")</li>
+              <li>Colar senhas ou API keys</li>
+              <li>Confiar sem verificar</li>
+              <li>Conversas muito longas</li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="color: #19B368;">Resolva</h3>
+            <ul>
+              <li><strong>Resultado ruim?</strong> Seja mais específico ou refine</li>
+              <li><strong>Informação errada?</strong> Peça fontes, verifique</li>
+              <li><strong>Claude confuso?</strong> Novo chat resolve</li>
+              <li><strong>Ferramentas sumindo?</strong> <code>/context</code> para diagnosticar</li>
+            </ul>
+          </div>
+        </div>
+        <aside class="notes">2 min. Formato lado a lado é mais fácil de escanear que uma tabela de 7 linhas.</aside>
+      </section>
+
+      <section>
+        <h2>Tokens — uso e economia</h2>
+        <p>Cada mensagem consome <strong>tokens</strong>. Quanto mais longa a conversa, mais tokens são usados.</p>
+        <div class="two-col">
+          <div>
+            <h3 style="color: #19B368;">Boas práticas</h3>
+            <ul>
+              <li>Seja conciso nos pedidos (mas não vago)</li>
+              <li>Um assunto = um chat</li>
+              <li>Use Sonnet para tarefas simples</li>
+              <li>Não repita contexto que o Claude já tem</li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="color: var(--carrot-orange);">Hora de um novo chat</h3>
+            <ul>
+              <li><code>/context</code> mostra mais de 50% de uso</li>
+              <li>Respostas ficam mais lentas ou genéricas</li>
+              <li>Você mudou de assunto</li>
+            </ul>
+          </div>
+        </div>
+        <aside class="notes">1 min. Rápido. Eles vão aprofundar em uma sessão futura.</aside>
+      </section>
+
+      <section>
+        <h2>Próximos passos</h2>
+        <div class="two-col">
+          <div>
+            <h3>Até sexta-feira</h3>
+            <ul>
+              <li>Abra a pasta Carrot-AI e peça algo da sua área</li>
+              <li>Compartilhe o resultado (ou a dúvida) no canal da equipe</li>
+              <li>Problemas? Fale com a engenharia</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Próximas sessões</h3>
+            <ul>
+              <li>Workshop de criação de skills</li>
+              <li>Sessão sobre otimização de tokens</li>
+              <li>Workflows com Figma, ClickUp, Notion</li>
+              <li>Técnicas de prompt engineering</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tip-box" style="margin-top: 15px;">
+          <strong>Dica final:</strong> Não espere pela sessão perfeita. Comece a usar agora — é praticando que você aprende.
+        </div>
+        <aside class="notes">Feche com energia. O call-to-action é concreto: até sexta, cada um pede algo ao Claude e compartilha.</aside>
+      </section>
+
+      <section>
+        <h2>Cheat sheet</h2>
+        <table>
+          <thead>
+            <tr><th>Comando / Ação</th><th>O que faz</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>/setup</code></td><td>Verificar o ambiente e ferramentas</td></tr>
+            <tr><td><code>/help</code></td><td>Ver capacidades disponíveis</td></tr>
+            <tr><td><code>/context</code></td><td>Ver contexto carregado e uso de tokens</td></tr>
+            <tr><td><code>/brainstorming</code></td><td>Estruturar ideias antes de executar</td></tr>
+            <tr><td>Seletor de modelo</td><td>Sonnet (dia a dia) · Opus (complexo) · Haiku (rápido)</td></tr>
+            <tr><td>Seletor de modo</td><td>Ask permissions (recomendado) · Auto accept · Plan mode</td></tr>
+            <tr><td>Seletor de esforço</td><td>Low · Medium · High (recomendado)</td></tr>
+          </tbody>
+        </table>
+        <p class="muted">Guarde este cheat sheet — ele está disponível na pasta Carrot-AI em <code>presentation/</code></p>
+        <aside class="notes">Diga: "Esse cheat sheet está acessível sempre que vocês precisarem na pasta da apresentação." Se possível, compartilhe um link no chat da equipe.</aside>
+      </section>
+
+      <!-- ========== FIM ========== -->
+      <section>
+        <h1>Perguntas?</h1>
+        <p class="muted" style="margin-top: 20px;">Obrigado por participarem. Agora é com vocês — experimentem!</p>
+        <aside class="notes">Abra para perguntas. Se ninguém perguntar, tenha 1-2 perguntas preparadas: "O que vocês mais gostariam de usar o Claude para fazer no trabalho?" ou "Alguém quer testar algo ao vivo agora?"</aside>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: true,
+      transition: 'slide',
+      showNotes: false,
+      width: 1200,
+      height: 700,
+      margin: 0.1,
+    });
+  </script>
+</body>
+</html>

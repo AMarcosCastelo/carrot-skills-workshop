@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Skills: seu superpoder no Claude Code · Carrot Workshop</title>
+
+  <!-- reveal.js core -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+
+  <!-- Google Fonts: Instrument Sans (display) + Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* === Carrot theme variables === */
+    :root {
+      --carrot-orange: #ff8b00;
+      --carrot-orange-dark: #f96806;
+      --carrot-teal: #003235;
+      --carrot-teal-light: #0a4b4e;
+      --carrot-cream: #FFF5F0;
+      --carrot-white: #ffffff;
+      --carrot-muted: rgba(255, 255, 255, 0.65);
+      --carrot-border: rgba(255, 255, 255, 0.12);
+      --font-display: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    /* === Base reveal overrides === */
+    .reveal {
+      font-family: var(--font-body);
+      color: var(--carrot-white);
+      font-weight: 400;
+    }
+    .reveal .slides {
+      text-align: left;
+    }
+    .reveal .slides section {
+      padding: 32px 60px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      max-height: 720px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 139, 0, 0.35) transparent;
+    }
+    .reveal .slides section::-webkit-scrollbar {
+      width: 6px;
+    }
+    .reveal .slides section::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .reveal .slides section::-webkit-scrollbar-thumb {
+      background: rgba(255, 139, 0, 0.35);
+      border-radius: 3px;
+    }
+    .reveal .slides section::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 139, 0, 0.6);
+    }
+    .reveal h1,
+    .reveal h2,
+    .reveal h3,
+    .reveal h4 {
+      font-family: var(--font-display);
+      color: var(--carrot-white);
+      text-transform: none;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 0.3em;
+    }
+    .reveal h1 { font-size: 2.8em; }
+    .reveal h2 { font-size: 2em; color: var(--carrot-orange); }
+    .reveal h3 { font-size: 1.3em; color: var(--carrot-orange); }
+    .reveal p,
+    .reveal li {
+      font-size: 0.7em;
+      line-height: 1.55;
+      color: var(--carrot-white);
+    }
+    .reveal strong { color: var(--carrot-orange); font-weight: 600; }
+    .reveal em { color: var(--carrot-muted); font-style: italic; }
+    .reveal a { color: var(--carrot-orange); text-decoration: none; }
+    .reveal a:hover { color: var(--carrot-orange-dark); }
+    .reveal code {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--carrot-orange);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    }
+    .reveal pre {
+      background: var(--carrot-teal-light);
+      border-left: 3px solid var(--carrot-orange);
+      padding: 20px 24px;
+      border-radius: 6px;
+      font-size: 0.55em;
+      line-height: 1.5;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .reveal pre code {
+      background: transparent;
+      color: var(--carrot-white);
+      padding: 0;
+    }
+
+    /* === Background color for all slides === */
+    html, body, .reveal, .reveal .backgrounds {
+      background: var(--carrot-teal);
+    }
+
+    /* === Slide number styling === */
+    .reveal .slide-number {
+      color: var(--carrot-muted);
+      background: transparent;
+      font-family: var(--font-body);
+      font-size: 14px;
+    }
+
+    /* === Slide type: .title-slide (opener, closing) === */
+    .reveal .title-slide {
+      text-align: center;
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+    }
+    .reveal .title-slide h1 {
+      font-size: 3.6em;
+      margin-bottom: 30px;
+      background: linear-gradient(135deg, var(--carrot-white) 0%, var(--carrot-orange) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .reveal .title-slide .subtitle {
+      font-family: var(--font-body);
+      color: var(--carrot-muted);
+      font-size: 0.9em;
+      font-weight: 400;
+      margin-top: 10px;
+    }
+
+    /* === Slide type: .big-quote (single bold statement slide) === */
+    /* Background color is NOT set here — let data-background-color on the <section> control it */
+    /* (slide 2 uses #000000, slide 19 uses #003235) */
+    .reveal .big-quote {
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 80vh;
+    }
+    .reveal .big-quote h2 {
+      font-size: 2.8em;
+      color: var(--carrot-white);
+      max-width: 900px;
+      line-height: 1.2;
+    }
+
+    /* === Slide type: .split-slide (50/50 orange + teal section divider) === */
+    .reveal .split-slide {
+      padding: 0 !important;
+      display: grid !important;
+      grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+      gap: 0;
+      background: var(--carrot-teal);
+    }
+    .reveal .split-slide .split-left {
+      background: var(--carrot-orange);
+    }
+    .reveal .split-slide .split-right {
+      background: var(--carrot-teal);
+      padding: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .reveal .split-slide h2 {
+      color: var(--carrot-white);
+      font-size: 2.4em;
+      margin-bottom: 12px;
+    }
+    .reveal .split-slide .subtitle {
+      color: var(--carrot-muted);
+      font-size: 1em;
+      font-family: var(--font-body);
+    }
+
+    /* === Component: .tip-box (orange callout) === */
+    .reveal .tip-box {
+      background: rgba(255, 139, 0, 0.1);
+      border-left: 4px solid var(--carrot-orange);
+      padding: 12px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      font-size: 0.62em;
+      line-height: 1.5;
+    }
+    .reveal .tip-box::before {
+      content: "💡 ";
+      margin-right: 6px;
+    }
+
+    /* === Component: .warning-box (cream callout for warnings) === */
+    .reveal .warning-box {
+      background: rgba(255, 245, 240, 0.08);
+      border-left: 4px solid var(--carrot-cream);
+      padding: 12px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      font-size: 0.62em;
+      line-height: 1.5;
+    }
+    .reveal .warning-box::before {
+      content: "🚨 ";
+      margin-right: 6px;
+    }
+
+    /* === Component: .skill-file (fake editor showing SKILL.md) === */
+    .reveal .skill-file {
+      background: #0d1f21;
+      border: 1px solid var(--carrot-border);
+      border-radius: 8px;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Menlo', 'Monaco', monospace;
+      font-size: 0.42em;
+      line-height: 1.45;
+      margin: 14px auto;
+      max-width: 860px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+    .reveal .skill-file .file-header {
+      background: rgba(255,255,255,0.05);
+      padding: 8px 16px;
+      border-bottom: 1px solid var(--carrot-border);
+      color: var(--carrot-muted);
+      font-family: var(--font-body);
+      font-size: 0.85em;
+    }
+    .reveal .skill-file .file-body {
+      padding: 14px 20px;
+      color: var(--carrot-white);
+      white-space: pre-wrap;
+      text-align: left;
+    }
+    .reveal .skill-file .yaml-delim { color: #888; }
+    .reveal .skill-file .yaml-key { color: var(--carrot-orange); }
+    .reveal .skill-file .yaml-value { color: var(--carrot-white); }
+    .reveal .skill-file .md-heading { color: var(--carrot-orange); font-weight: 600; }
+    .reveal .skill-file .md-comment { color: #6ab8bb; }
+
+    /* === Component: .comparison-table (slide 7) === */
+    .reveal .comparison-table {
+      width: 100%;
+      max-width: 1100px;
+      margin: 20px auto;
+      border-collapse: collapse;
+      font-size: 0.55em;
+      font-family: var(--font-body);
+    }
+    .reveal .comparison-table th,
+    .reveal .comparison-table td {
+      padding: 12px 14px;
+      border: 1px solid var(--carrot-border);
+      text-align: left;
+      vertical-align: top;
+    }
+    .reveal .comparison-table thead th {
+      background: var(--carrot-orange);
+      color: var(--carrot-white);
+      font-weight: 600;
+      text-align: center;
+    }
+    .reveal .comparison-table tbody th {
+      background: rgba(255,255,255,0.04);
+      color: var(--carrot-muted);
+      font-weight: 500;
+      width: 140px;
+    }
+    .reveal .comparison-table .highlight-cell {
+      background: rgba(255, 139, 0, 0.15);
+      color: var(--carrot-white);
+      font-weight: 600;
+    }
+
+    /* === Component: .two-col (grid 2 columns) === */
+    .reveal .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 20px;
+      text-align: left;
+    }
+    .reveal .two-col > div > h3 {
+      font-size: 1em;
+      color: var(--carrot-orange);
+      margin-bottom: 12px;
+    }
+    .reveal .two-col ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .reveal .two-col li {
+      padding: 6px 0;
+      font-size: 0.72em;
+    }
+    .reveal .two-col li::before {
+      content: "→ ";
+      color: var(--carrot-orange);
+      font-weight: 700;
+      margin-right: 6px;
+    }
+
+    /* === Component: .idea-table (slide 15 — banco de ideias) === */
+    .reveal .idea-table {
+      width: 100%;
+      max-width: 1100px;
+      margin: 20px auto;
+      border-collapse: collapse;
+      font-size: 0.58em;
+      font-family: var(--font-body);
+    }
+    .reveal .idea-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--carrot-border);
+      vertical-align: top;
+    }
+    .reveal .idea-table td:first-child {
+      color: var(--carrot-orange);
+      font-weight: 600;
+      width: 150px;
+    }
+    .reveal .idea-table code {
+      font-size: 0.95em;
+      margin-right: 8px;
+    }
+
+    /* === Component: .footer-cta (slide 19 closing) === */
+    .reveal .footer-cta {
+      margin-top: 40px;
+      font-family: var(--font-body);
+      font-size: 0.7em;
+      color: var(--carrot-muted);
+    }
+    .reveal .footer-cta strong { color: var(--carrot-orange); }
+
+    /* === Utility classes === */
+    .reveal .orange { color: var(--carrot-orange); }
+    .reveal .teal { color: var(--carrot-teal); }
+    .reveal .muted { color: var(--carrot-muted); }
+    .reveal .big { font-size: 1.4em; }
+    .reveal .small { font-size: 0.85em; }
+    .reveal .center { text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- === BLOCO 1: COLD OPEN === -->
+
+      <!-- Slide 1: Opener minimalista -->
+      <section class="title-slide" data-background-color="#003235">
+        <h1>Skills</h1>
+        <p class="subtitle">seu superpoder no Claude Code</p>
+        <p class="subtitle" style="margin-top: 40px; font-size: 0.75em;">
+          Workshop Carrot · 15/04/2026 · Antonio Castelo
+        </p>
+        <aside class="notes">
+          Slide 1 — abertura (20 segundos).
+
+          - Cumprimenta a sala (bom dia / boa tarde)
+          - Apresenta rápido: "Antonio, Engineering. Workshop de Skills, 1h30, empresa inteira."
+          - NÃO explica ainda o que é skill — a sala tem que ficar curiosa
+          - Transição: "Antes de explicar o que é, quero te mostrar funcionando."
+          - Avança pro slide 2.
+        </aside>
+      </section>
+
+      <!-- Slide 2: "Vou te mostrar" -->
+      <section class="big-quote" data-background-color="#000000">
+        <h2>Antes de explicar o que é,<br>quero te mostrar funcionando.</h2>
+        <aside class="notes">
+          ========================================
+          COLD OPEN — LIVE DEMO SCRIPT
+          ========================================
+
+          1. Sair do deck → abrir Claude Desktop projetado
+          2. Invocar /skill-creator
+          3. Colar o prompt abaixo (ensaiado):
+
+          ---[PROMPT PRO SKILL-CREATOR]---
+          Cria uma skill chamada carrot-voice.
+
+          Ela recebe um texto e revisa aplicando a voz e os guardrails
+          de brand da Carrot. Antes de revisar, ela tem que ler:
+          - .claude/rules/brand.md
+          - context/brand/voice-and-tone.md
+          - context/brand/guardrails.md
+          - context/brand/glossary.md
+
+          A saída tem que ter duas partes:
+          1. O texto revisado
+          2. Uma lista das mudanças que você fez e o porquê de cada uma
+
+          Use quando alguém pedir revisão de e-mail, post, legenda,
+          copy ou qualquer texto que vá sair como comunicação da Carrot.
+          ---[FIM DO PROMPT]---
+
+          4. Esperar skill-creator gerar o SKILL.md (~10-15s)
+          5. Invocar /carrot-voice e colar o TEXTO RUIM:
+
+          ---[TEXTO RUIM PRO TESTE 1]---
+          A Carrot é uma startup revolucionária que tá disruptando
+          o mercado de créditos de carbono com uma plataforma game-changer.
+          Nosso time de ninjas tech vai transformar a indústria global
+          e salvar o planeta. Venha fazer parte dessa jornada — é hora
+          de dar um step up na sua carreira!
+          ---[FIM DO TEXTO RUIM]---
+
+          Esperado: skill devolve texto revisado + lista ~6 violações
+          (startup, revolucionária, disruptando, game-changer, ninjas tech,
+          overclaim, step up como pressão moral).
+
+          6. TESTE 2 (opcional, se timing permitir): pedir pra alguém
+          da sala jogar um parágrafo real de e-mail/post que escreveram
+          recentemente. Rodar a skill ao vivo com o texto deles.
+
+          7. Silêncio. Olhar pra sala. Falar:
+          "Isso foi uma skill. Agora vamos entender o que aconteceu."
+
+          8. Voltar pro deck → avançar pra slide 3.
+
+          ========================================
+          PLANO B — SE A DEMO TRAVAR
+          ========================================
+          - Se skill-creator não responder em ~20s OU
+          - Se /carrot-voice não aparecer no menu OU
+          - Se a rede cair:
+          → Finder → presentation/assets/cold-open-fallback.mp4
+          → Duplo-clique, play, fechar QuickTime
+          → Falar: "A mágica é real, mas a rede não é."
+          → Voltar pro deck, avançar pra slide 3
+
+          ========================================
+          BACKUP — TEXTO RUIM CURTO (se timing apertado)
+          ========================================
+          A Carrot é uma startup de tecnologia verde que vai
+          revolucionar o mundo dos créditos de carbono.
+        </aside>
+      </section>
+
+      <!-- (After slide 2, Antonio leaves presentation mode and goes to Claude Desktop for the live demo. No slides during the 4-min demo.) -->
+
+      <!-- === BLOCO 2: DESMONTAGEM === -->
+
+      <!-- Slide 3: Section divider — "O que aconteceu?" -->
+      <section class="split-slide">
+        <div class="split-left"></div>
+        <div class="split-right">
+          <h2>O que<br>aconteceu?</h2>
+          <p class="subtitle">Vamos desmontar o truque</p>
+        </div>
+        <aside class="notes">
+          Slide 3 — divisor (5 segundos).
+
+          (Voltou do live demo agora)
+          - "Então... o que acabou de acontecer?"
+          - Tom de mistério / curiosidade
+          - Avança pro slide 4.
+        </aside>
+      </section>
+
+      <!-- Slide 4: Uma skill é um arquivo de texto -->
+      <section>
+        <h2>Uma skill é literalmente um arquivo de texto</h2>
+        <div class="skill-file">
+          <div class="file-header">~/.claude/skills/carrot-voice/SKILL.md</div>
+          <div class="file-body"><span class="yaml-delim">---</span>
+<span class="yaml-key">name:</span> <span class="yaml-value">carrot-voice</span>
+<span class="yaml-key">description:</span> <span class="yaml-value">Revisa qualquer texto aplicando a voz da Carrot. Use quando o usuário pedir revisão de e-mail, post, legenda ou copy.</span>
+<span class="yaml-delim">---</span>
+
+<span class="md-heading"># Revisar texto no tom da Carrot</span>
+
+Antes de revisar, leia os arquivos:
+- <span class="md-comment">.claude/rules/brand.md</span>
+- <span class="md-comment">context/brand/glossary.md</span>
+
+Depois, devolva:
+1. O texto revisado
+2. Lista das mudanças que você fez e por quê</div>
+        </div>
+        <div class="tip-box">
+          Claude lê esse arquivo como se fosse você dando instrução no chat — só que reutilizável, em qualquer conversa.
+        </div>
+        <aside class="notes">
+          Slide 4 — o arquivo (~3 min).
+
+          OBJETIVO: quebrar a ideia de que skill é mágica. É só um arquivo.
+
+          Pontos:
+          - "Uma skill é literalmente um arquivo de texto. Nada mágico."
+          - Apontar pra cada parte do SKILL.md projetado:
+            1. Frontmatter (entre ---): nome + descrição. É a ficha técnica.
+            2. Instruções em markdown: o playbook em linguagem natural.
+            3. Referência a arquivos de contexto: é o que deu o tom Carrot.
+          - "O skill-creator escreveu isso pra gente a partir do que eu pedi em linguagem natural"
+          - Destacar o tip box: "Se você sabe escrever um prompt bom, você sabe escrever uma skill."
+        </aside>
+      </section>
+
+      <!-- Slide 5: Onde as skills moram -->
+      <section>
+        <h2>Onde as skills moram</h2>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Localização</th>
+              <th>Caminho</th>
+              <th>Quem usa</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Pessoal</th>
+              <td><code>~/.claude/skills/nome/SKILL.md</code></td>
+              <td>Só você, em todos os projetos</td>
+            </tr>
+            <tr>
+              <th>Projeto</th>
+              <td><code>.claude/skills/nome/SKILL.md</code></td>
+              <td>Todo mundo que abrir esse projeto</td>
+            </tr>
+            <tr>
+              <th>Plugin</th>
+              <td>Via plugin instalado</td>
+              <td>Onde o plugin estiver ativo</td>
+            </tr>
+            <tr>
+              <th>Empresa</th>
+              <td>Managed settings</td>
+              <td>Time inteiro</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="tip-box">
+          No workspace <strong>Carrot-AI</strong>, a pasta <code>.claude/skills/</code> já tem skills compartilhadas — <code>/daily-checkin</code>, <code>/daily-checkout</code>, <code>/ideate</code>. Essas são skills <strong>de projeto</strong>.
+        </div>
+        <aside class="notes">
+          Slide 5 — localização (~2 min).
+
+          OBJETIVO: mostrar os 4 lugares onde skills moram e qual vocês vão usar.
+
+          Ler a tabela apontando:
+          - Pessoal (~/.claude/skills/): só você, em todos os projetos ← TODO MUNDO USA ISSO HOJE
+          - Projeto (.claude/skills/): compartilhado com quem abre o projeto
+          - Plugin: distribuído por terceiros (é o caso do skill-creator que vocês instalaram)
+          - Empresa: managed settings, raro pra quem não é admin
+
+          Destacar: "No Carrot-AI já tem skills compartilhadas — /daily-checkin, /daily-checkout, /ideate. Essas são skills de projeto."
+
+          Fechar: "Hoje vocês vão criar skills PESSOAIS. Se uma virar útil pro time inteiro, a gente transforma em skill de projeto."
+        </aside>
+      </section>
+
+      <!-- Slide 6: Como Claude sabe quando usar -->
+      <section>
+        <h2>Como o Claude sabe quando usar</h2>
+        <div class="two-col">
+          <div>
+            <h3>1. Você chama</h3>
+            <ul>
+              <li>Digita <code>/carrot-voice</code> no chat</li>
+              <li>Autocomplete mostra a skill</li>
+              <li>Enter — skill é invocada</li>
+            </ul>
+          </div>
+          <div>
+            <h3>2. Claude decide sozinho</h3>
+            <ul>
+              <li>Você escreve "revisa esse texto pra mim"</li>
+              <li>Claude lê o <code>description</code> da skill</li>
+              <li>Se bater com o pedido, invoca automaticamente</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tip-box">
+          A <code>description</code> é o que faz Claude decidir. Quanto mais específica, melhor ele escolhe. <strong>"Revisa texto aplicando voz da Carrot"</strong> é muito melhor que <strong>"Skill de texto"</strong>.
+        </div>
+        <aside class="notes">
+          Slide 6 — invocação (~2 min).
+
+          OBJETIVO: mostrar que tem 2 formas de usar uma skill.
+
+          Coluna 1 (Você chama): digita / no chat, autocomplete mostra, enter. Imperativo.
+          Coluna 2 (Claude decide): você escreve em linguagem natural, Claude lê o description de todas as skills disponíveis e invoca a que combinar.
+
+          Exemplo vivo: "Se eu escrever 'revisa esse texto pra mim', Claude olha todas as skills, acha uma cujo description bate, e invoca automaticamente."
+
+          Destaque do tip box: "A descrição é o que faz Claude decidir. Quanto mais específica, melhor."
+
+          Exemplo: 'Revisa texto aplicando voz da Carrot' é muito melhor que 'Skill de texto'.
+        </aside>
+      </section>
+
+      <!-- Slide 7: Quadro comparativo — Chat vs Projeto vs Skill vs Agente vs MCP -->
+      <section>
+        <h2>Chat · Projeto · Skill · Agente · MCP</h2>
+        <p class="muted small">O mapa mental que todo mundo pediu pra ser esclarecido</p>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Chat</th>
+              <th>Projeto</th>
+              <th>Skill</th>
+              <th>Agente</th>
+              <th>MCP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>O que é</th>
+              <td>Conversa única</td>
+              <td>Conversa com contexto fixo</td>
+              <td class="highlight-cell">Playbook invocável</td>
+              <td>Skill + ferramentas + identidade</td>
+              <td>Ponte pra ferramenta externa</td>
+            </tr>
+            <tr>
+              <th>Mora</th>
+              <td>Na sessão</td>
+              <td>No Claude.ai (app web)</td>
+              <td class="highlight-cell"><code>.claude/skills/</code></td>
+              <td><code>.claude/agents/</code></td>
+              <td><code>.mcp.json</code></td>
+            </tr>
+            <tr>
+              <th>Reutilizável?</th>
+              <td>Não</td>
+              <td>Sim, dentro do projeto</td>
+              <td class="highlight-cell"><strong>Em qualquer lugar</strong></td>
+              <td>Sim</td>
+              <td>Sim</td>
+            </tr>
+            <tr>
+              <th>Exemplo</th>
+              <td>"Me ajuda com esse e-mail"</td>
+              <td>Projeto "Newsletter"</td>
+              <td class="highlight-cell"><code>/carrot-voice</code></td>
+              <td><code>code-reviewer</code></td>
+              <td>Notion, Gmail, Granola</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="tip-box">
+          <strong>Ponto-chave:</strong> "Projeto" é dentro do Claude.ai (app web do navegador). "Skill" é no Desktop + sistema de arquivos — roda em qualquer sessão, em qualquer lugar.
+        </div>
+        <aside class="notes">
+          Slide 7 — O GRANDE MAPA (~4 min, é o slide mais importante da primeira metade).
+
+          Este slide resolve a confusão conceitual que TODO mundo do X-Ray mencionou.
+          Especificamente o Paulo perguntou: "qual a diferença entre projeto e skill?"
+
+          Ler a tabela com calma, coluna por coluna:
+          - Chat: conversa única, morre quando acaba
+          - Projeto: conversa com contexto fixo, dentro do Claude.ai (app WEB do navegador)
+          - Skill: playbook invocável, mora no sistema de arquivos, roda em qualquer lugar ← O FOCO DE HOJE
+          - Agente: skill + ferramentas + identidade (versão avançada, não vamos entrar hoje)
+          - MCP: ponte pra ferramenta externa (Notion, Gmail, Granola, etc.)
+
+          PONTO-CHAVE pra reforçar duas vezes:
+          "Projeto é no Claude.ai, app do navegador. Skill é no Desktop + sistema de arquivos. Por isso skill roda em qualquer sessão, em qualquer conversa."
+
+          PAUSA: perguntar à sala — "alguma dúvida até aqui? Ficou claro?"
+          Esperar de verdade 3-5 segundos antes de avançar.
+        </aside>
+      </section>
+
+      <!-- Slide 8: Anatomia do SKILL.md -->
+      <section>
+        <h2>Anatomia do SKILL.md</h2>
+        <div class="two-col">
+          <div>
+            <h3>Frontmatter YAML</h3>
+            <ul>
+              <li><code>name</code> → vira o slash command</li>
+              <li><code>description</code> → Claude usa pra decidir ativação</li>
+              <li>Outros campos opcionais: <code>allowed-tools</code>, <code>argument-hint</code></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Corpo markdown</h3>
+            <ul>
+              <li>Instruções que Claude segue quando a skill é invocada</li>
+              <li>Pode referenciar outros arquivos</li>
+              <li>Quanto mais claro, melhor o resultado</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tip-box">
+          Se você já sabe escrever um prompt bom, você já sabe escrever uma skill. A diferença é que agora ele fica salvo e reutilizável.
+        </div>
+        <aside class="notes">
+          Slide 8 — anatomia (~2 min).
+
+          OBJETIVO: dissecar o SKILL.md em 2 partes principais.
+
+          Coluna 1 — Frontmatter YAML (entre ---):
+          - name: vira o slash command
+          - description: Claude usa pra decidir ativação
+          - outros campos opcionais (allowed-tools, argument-hint) — mencionar rapidamente, não dwell
+
+          Coluna 2 — Corpo markdown:
+          - As instruções que Claude segue
+          - Pode referenciar outros arquivos (vai ser o próximo slide)
+          - Quanto mais claro, melhor
+
+          Fecha com o tip box: "Se você já sabe escrever um prompt bom, você já sabe escrever uma skill. A diferença é que agora ele fica salvo e reutilizável."
+        </aside>
+      </section>
+
+      <!-- Slide 9: Skills podem ler outros arquivos -->
+      <section>
+        <h2>Skills podem ler outros arquivos</h2>
+        <p>A parte mais poderosa. A skill do cold open <strong>referenciou</strong> o <code>brand.md</code> e o <code>glossary.md</code> — isso é o que permitiu ela revisar no tom Carrot <em>sem a gente precisar copiar as regras pro arquivo dela</em>.</p>
+        <div class="tip-box">
+          <strong>Metáfora:</strong> é como se a skill dissesse "antes de me executar, vai ler esses arquivos". Você não precisa colar o contexto — só aponta pra onde ele já está.
+        </div>
+        <h3 style="margin-top: 30px;">Exemplos que você pode referenciar hoje</h3>
+        <ul>
+          <li><code>.claude/rules/brand.md</code> — regras de voz e tom da Carrot</li>
+          <li><code>context/brand/glossary.md</code> — termos e nomenclatura oficial</li>
+          <li><code>context/company.md</code> — o que a Carrot é, missão, produtos</li>
+          <li>Qualquer arquivo seu no workspace</li>
+        </ul>
+        <aside class="notes">
+          Slide 9 — o super-poder (~3 min).
+
+          OBJETIVO: essa é a feature MATADORA. A skill do cold open só funcionou porque leu o brand.md — sem copiar o conteúdo.
+
+          Pontos:
+          - A skill apontou pra .claude/rules/brand.md e foi lá ler antes de executar
+          - Metáfora: "É como apontar pra um livro que você já tem em casa, em vez de ter que copiar o livro inteiro toda vez"
+          - Destacar o tip box
+
+          Exemplos universais (ler rápido):
+          - .claude/rules/brand.md — regras de voz
+          - context/brand/glossary.md — termos oficiais
+          - context/company.md — missão e produtos
+          - Qualquer arquivo seu no workspace
+
+          FECHAMENTO: "Isso é o que permite skills serem pessoais MAS consistentes com o tom da empresa. Cada um faz a sua, todas falam a mesma voz."
+        </aside>
+      </section>
+
+      <!-- Slide 10: Skills podem rodar código (menção rápida) -->
+      <section>
+        <h2>Skills podem até rodar código</h2>
+        <p>Skills não precisam ser só texto. Elas podem <strong>rodar scripts</strong> — Python, shell, qualquer coisa — e usar o resultado na resposta.</p>
+        <p class="small muted">Exemplos reais: skill que gera visualização do codebase, skill que busca dados no banco, skill que chama uma API externa.</p>
+        <div class="tip-box">
+          Hoje a gente foca em skills <strong>só com texto</strong> — é 80% do valor e é o que dá pra aprender em 1h. Mas saiba que dá pra ir muito além quando você se sentir confortável.
+        </div>
+        <aside class="notes">
+          Slide 10 — menção rápida (~1 min, NÃO MAIS).
+
+          Objetivo: plantar a semente de que skills podem ir muito além de texto, sem entrar em detalhe.
+
+          Falar rápido:
+          "Skills podem rodar scripts: Python, shell, qualquer coisa. Gerar visualizações, buscar dados, chamar APIs."
+
+          "Hoje a gente foca em texto — é 80% do valor. Mas saibam que existe esse outro nível quando vocês se sentirem confortáveis."
+
+          NÃO demonstrar. NÃO dwell. Avançar.
+        </aside>
+      </section>
+
+      <!-- Slide 11: Como criar — 3 caminhos -->
+      <section>
+        <h2>Como criar uma skill · 3 caminhos</h2>
+        <table class="idea-table">
+          <tr>
+            <td>1. Mais simples</td>
+            <td>
+              <strong>Pede pro <code>/skill-creator</code></strong> criar pra você.<br>
+              <span class="muted small">Foi o que a gente acabou de ver no cold open. Você descreve o que quer, ele cria o arquivo.</span>
+            </td>
+          </tr>
+          <tr>
+            <td>2. Intermediário</td>
+            <td>
+              <strong>Cria a pasta manualmente</strong> em <code>~/.claude/skills/nome/</code> e escreve o <code>SKILL.md</code> no seu editor de texto favorito.<br>
+              <span class="muted small">Útil quando você já sabe o que quer e prefere escrever direto.</span>
+            </td>
+          </tr>
+          <tr>
+            <td>3. Avançado</td>
+            <td>
+              <strong>Cria skill de projeto</strong> em <code>.claude/skills/</code> dentro do workspace Carrot-AI — pra compartilhar com o time inteiro.<br>
+              <span class="muted small">Só Engineering commita no compartilhado, mas qualquer um pode pedir pra virar skill de projeto.</span>
+            </td>
+          </tr>
+        </table>
+        <div class="tip-box">
+          <strong>Hoje vocês vão usar o caminho 1.</strong> É o mais rápido pra ver a mágica acontecer.
+        </div>
+        <aside class="notes">
+          Slide 11 — os 3 caminhos (~2 min).
+
+          Ler os 3 em ordem:
+          1. /skill-creator: o caminho mais simples. Foi o que vocês viram no cold open.
+          2. Criar arquivo manualmente: você cria a pasta em ~/.claude/skills/nome/ e escreve o SKILL.md no editor (VS Code, etc.)
+          3. Skill de projeto: compartilhada com o time inteiro, commitada pela Engineering no workspace Carrot-AI.
+
+          DESTACAR bem forte: "Hoje vocês vão usar o CAMINHO 1. É o mais rápido pra ver a mágica acontecer."
+
+          Caminho 2 e 3 ficam pra depois, quando se sentirem confortáveis.
+        </aside>
+      </section>
+
+      <!-- Slide 12: Boas práticas -->
+      <section>
+        <h2>Boas práticas rápidas</h2>
+        <ul style="list-style: none; padding-left: 0;">
+          <li style="padding: 10px 0; border-bottom: 1px solid var(--carrot-border);">
+            <strong class="orange">Descrição específica</strong> — não "skill de texto", mas "revisa texto aplicando voz da Carrot"
+          </li>
+          <li style="padding: 10px 0; border-bottom: 1px solid var(--carrot-border);">
+            <strong class="orange">Começa simples</strong> — prefere 5 linhas que funcionam a 50 linhas quebradas
+          </li>
+          <li style="padding: 10px 0; border-bottom: 1px solid var(--carrot-border);">
+            <strong class="orange">Testa com exemplo real</strong> — cola um texto de verdade e vê se funciona
+          </li>
+          <li style="padding: 10px 0; border-bottom: 1px solid var(--carrot-border);">
+            <strong class="orange">Referencia contexto que já existe</strong> — <code>brand.md</code>, <code>glossary.md</code>, <code>company.md</code>
+          </li>
+          <li style="padding: 10px 0;">
+            <strong class="orange">Se repetir 3+ vezes, vira skill</strong> — é a regra mais simples
+          </li>
+        </ul>
+        <aside class="notes">
+          Slide 12 — boas práticas (~2 min).
+
+          5 regras, ler cada uma com ênfase:
+
+          1. Descrição específica — "revisa texto aplicando voz da Carrot" é muito melhor que "skill de texto"
+          2. Começa simples — 5 linhas que funcionam &gt; 50 linhas quebradas
+          3. Testa com exemplo real — cola um texto de verdade, não exemplo fictício
+          4. Referencia contexto existente — brand.md, glossary.md, company.md
+          5. Se repetir 3+ vezes, vira skill ← A regra mais fácil de lembrar
+
+          Fala o 5 por último e dá um peso maior: "Essa é a heurística mais simples. Se você repetir 3+ vezes, é porque virou um playbook — e playbook vira skill."
+        </aside>
+      </section>
+
+      <!-- Slide 13: Section divider — "Agora vai você" -->
+      <section class="split-slide">
+        <div class="split-left"></div>
+        <div class="split-right">
+          <h2>Agora<br>vai você</h2>
+          <p class="subtitle">Hands-on: criando sua primeira skill</p>
+        </div>
+        <aside class="notes">
+          Slide 13 — transição de energia (5 segundos).
+
+          "Agora vai você. Tempo de parar de ouvir e começar a fazer."
+
+          Avança pro slide 14.
+        </aside>
+      </section>
+
+      <!-- === BLOCO 3: HANDS-ON === -->
+
+      <!-- Slide 14: Sua missão -->
+      <section>
+        <h2>Sua missão</h2>
+        <div class="two-col">
+          <div>
+            <h3>O desafio</h3>
+            <p style="font-size: 0.85em;">
+              Pensa em alguma coisa que você já pediu pro Claude <strong>mais de 3 vezes</strong> essa semana. Ou algo chato/repetitivo que você faz no trabalho toda semana.
+            </p>
+            <p style="font-size: 0.85em; margin-top: 14px;">
+              Vamos transformar isso em uma <strong>skill</strong>.
+            </p>
+          </div>
+          <div>
+            <h3>As regras</h3>
+            <ul>
+              <li>Útil pro teu dia a dia <strong>real</strong> (não exemplo fictício)</li>
+              <li>Começa <strong>simples</strong> — 5 linhas que funcionam ≫ 50 quebradas</li>
+              <li>Usa o <code>/skill-creator</code> no teu Claude Desktop</li>
+              <li>Testa com um caso real antes do show-and-tell</li>
+            </ul>
+          </div>
+        </div>
+        <aside class="notes">
+          Slide 14 — a missão (~1 min).
+
+          Ler o desafio da coluna esquerda em voz alta:
+          "Pensem em alguma coisa que vocês já pediram pro Claude MAIS de 3 vezes essa semana. Ou algo chato e repetitivo que fazem toda semana. Vamos transformar isso em uma skill."
+
+          Apontar pra coluna direita e enfatizar as regras:
+          - Real, não fictício
+          - Começar simples
+          - Usar /skill-creator
+          - Testar com caso real
+
+          "Vocês têm 40 minutos. A partir de agora."
+        </aside>
+      </section>
+
+      <!-- Slide 15: Banco de ideias por área -->
+      <section>
+        <h2>Banco de ideias</h2>
+        <p class="muted small">Se você travou em "não sei o que criar", começa aqui. <strong>Não é obrigatório</strong> — é gatilho.</p>
+        <table class="idea-table">
+          <tr>
+            <td>Design</td>
+            <td>
+              <code>/validar-design-pro-marketing</code>
+              <code>/gerar-alt-text</code>
+            </td>
+          </tr>
+          <tr>
+            <td>Business</td>
+            <td>
+              <code>/analisar-edital</code>
+              <code>/preparar-reuniao-investidor</code>
+            </td>
+          </tr>
+          <tr>
+            <td>Operations</td>
+            <td>
+              <code>/registrar-contato-notion</code>
+              <code>/revisar-email-participante</code>
+            </td>
+          </tr>
+          <tr>
+            <td>Marketing</td>
+            <td>
+              <code>/legenda-linkedin-carrot</code>
+              <code>/proposta-newsletter</code>
+            </td>
+          </tr>
+          <tr>
+            <td>Product</td>
+            <td>
+              <code>/rascunho-prd</code>
+              <code>/resumir-feedback</code>
+            </td>
+          </tr>
+          <tr>
+            <td>Engineering</td>
+            <td>
+              <code>/revisar-pr-critico</code>
+              <code>/escrever-changelog</code>
+            </td>
+          </tr>
+        </table>
+        <aside class="notes">
+          Slide 15 — destrava quem tá em branco (~1 min).
+
+          "Se você travou em 'não sei o que criar', começa aqui. Olha pelo seu time. Essas são só sugestões, não obrigatórias."
+
+          NÃO ler tudo. Apontar pros times mais representados na sala (provavelmente Design, Ops, Business).
+
+          Fechar: "Mas nada impede de você criar algo totalmente diferente. A skill é SUA. Use pra resolver SUA dor."
+        </aside>
+      </section>
+
+      <!-- Slide 16: Travou? Chama um engineer -->
+      <section>
+        <h2>Como o tempo roda</h2>
+        <table class="idea-table" style="max-width: 900px;">
+          <tr>
+            <td>0–10 min</td>
+            <td>Escolhe a ideia + descreve em <strong>1 frase</strong> o que a skill faz</td>
+          </tr>
+          <tr>
+            <td>10–30 min</td>
+            <td>Usa o <code>/skill-creator</code> pra gerar + ajusta o resultado</td>
+          </tr>
+          <tr>
+            <td>30–40 min</td>
+            <td>Testa com um caso real + chama a gente se quiser revisão</td>
+          </tr>
+        </table>
+        <div class="warning-box">
+          <strong>Travou?</strong> Engineers na sala são buddies informais. Levantou a mão, a gente senta junto. Ninguém sai sem ter pelo menos uma skill funcionando.
+        </div>
+        <aside class="notes">
+          Slide 16 — timing (~1 min de explicação + 40 min de hands-on).
+
+          Ler a tabela passo a passo:
+          - 0-10 min: escolher a ideia e descrever em 1 frase
+          - 10-30 min: usar /skill-creator e ajustar o resultado
+          - 30-40 min: testar com caso real
+
+          Destacar o warning box:
+          "Travaram? Engineers na sala são buddies informais. Levantou a mão, a gente senta junto. Ninguém sai sem ter pelo menos uma skill funcionando."
+
+          LEMBRETE IMPORTANTE PRO ANTONIO: briefar engineers ANTES do workshop na porta da sala — "se alguém levantar a mão do seu lado, ajuda. Não precisa ser perfeito."
+
+          AÇÃO CONCRETA: "Começamos AGORA. Eu vou circulando pela sala. Se precisar, grita."
+
+          (Inicia cronômetro visível de 40 min e começa a circular pela sala)
+        </aside>
+      </section>
+
+      <!-- === BLOCO 4: SHOW-AND-TELL + FECHAMENTO === -->
+
+      <!-- Slide 17: Section divider — "Mostra o que você criou" -->
+      <section class="split-slide">
+        <div class="split-left"></div>
+        <div class="split-right">
+          <h2>Mostra o que<br>você criou</h2>
+          <p class="subtitle">Show &amp; tell · 2 minutos por pessoa</p>
+        </div>
+        <aside class="notes">
+          Slide 17 — transição pro show-and-tell (5 segundos).
+
+          (40 minutos de hands-on se passaram)
+
+          "Chegamos no show. Quem quer mostrar o que criou?"
+
+          Se ninguém levantar a mão em 5 segundos: chamar diretamente Thiago, Marcelo ou Paulo (eles toparam).
+
+          Avança pro slide 18 depois de 4-5 pessoas mostrarem (2 min cada).
+        </aside>
+      </section>
+
+      <!-- Slide 18: Próximos passos -->
+      <section>
+        <h2>Próximos passos</h2>
+        <ul style="list-style: none; padding-left: 0;">
+          <li style="padding: 14px 0; border-bottom: 1px solid var(--carrot-border);">
+            <strong class="orange">1. Sua skill vai evoluir</strong><br>
+            <span class="small muted">Usa ela essa semana no trabalho real. Quando notar algo pra melhorar, volta no arquivo e ajusta.</span>
+          </li>
+          <li style="padding: 14px 0; border-bottom: 1px solid var(--carrot-border);">
+            <strong class="orange">2. Compartilha o que funciona</strong><br>
+            <span class="small muted">Se uma skill tua é útil pro time inteiro, Engineering pode transformar em skill de projeto no workspace compartilhado.</span>
+          </li>
+          <li style="padding: 14px 0;">
+            <strong class="orange">3. Canal <code>#carrot-ai</code> no Slack</strong><br>
+            <span class="small muted">Qualquer dúvida de skill, pergunta lá. Engineering responde.</span>
+          </li>
+        </ul>
+        <aside class="notes">
+          Slide 18 — próximos passos (~2 min).
+
+          Ler os 3 bullets devagar:
+
+          1. Sua skill vai evoluir — "Não é peça de museu, é ferramenta. Usem essa semana, voltem e refinem."
+
+          2. Compartilha o que funciona — "Se uma skill sua é útil pro time inteiro, Engineering pode transformar em skill de projeto no workspace compartilhado. Me avisa no Slack."
+
+          3. Canal #carrot-ai no Slack — "Qualquer dúvida sobre skill, pergunta lá. Engineering tá de plantão."
+
+          Fechar: "O workshop acaba aqui, mas a prática começa amanhã cedo."
+        </aside>
+      </section>
+
+      <!-- Slide 19: Fechamento -->
+      <section class="big-quote" data-background-color="#003235">
+        <h2 style="color: var(--carrot-orange);">Se você repetir,<br>vira skill.</h2>
+        <div class="footer-cta" style="margin-top: 60px;">
+          Qualquer dúvida · <strong>#carrot-ai</strong> no Slack
+        </div>
+        <aside class="notes">
+          Slide 19 — punchline de fechamento (~30 segundos).
+
+          Ler a frase DEVAGAR, pausando:
+          "Se você repetir... vira skill."
+
+          Pausa de 2 segundos.
+
+          "Obrigado pelo tempo de vocês. Qualquer dúvida, #carrot-ai no Slack. Bom trabalho."
+
+          (Aguardar aplausos, agradecer, encerrar)
+        </aside>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- reveal.js core + notes plugin (needed for speaker view / press 'S') -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      controls: true,
+      progress: true,
+      transition: 'slide',
+      width: 1280,
+      height: 720,
+      margin: 0.08,
+      plugins: [ RevealNotes ]
+    });
+  </script>
+</body>
+</html>
