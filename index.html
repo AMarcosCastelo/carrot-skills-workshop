@@ -374,89 +374,12 @@
         <p class="subtitle" style="margin-top: 40px; font-size: 0.75em;">
           Workshop Carrot · 15/04/2026 · Antonio Castelo
         </p>
-        <aside class="notes">
-          Slide 1 — abertura (20 segundos).
-
-          - Cumprimenta a sala (bom dia / boa tarde)
-          - Apresenta rápido: "Antonio, Engineering. Workshop de Skills, 1h30, empresa inteira."
-          - NÃO explica ainda o que é skill — a sala tem que ficar curiosa
-          - Transição: "Antes de explicar o que é, quero te mostrar funcionando."
-          - Avança pro slide 2.
-        </aside>
-      </section>
+              </section>
 
       <!-- Slide 2: "Vou te mostrar" -->
       <section class="big-quote" data-background-color="#000000">
         <h2>Antes de explicar o que é,<br>quero te mostrar funcionando.</h2>
-        <aside class="notes">
-          ========================================
-          COLD OPEN — LIVE DEMO SCRIPT
-          ========================================
-
-          1. Sair do deck → abrir Claude Desktop projetado
-          2. Invocar /skill-creator
-          3. Colar o prompt abaixo (ensaiado):
-
-          ---[PROMPT PRO SKILL-CREATOR]---
-          Cria uma skill chamada carrot-voice.
-
-          Ela recebe um texto e revisa aplicando a voz e os guardrails
-          de brand da Carrot. Antes de revisar, ela tem que ler:
-          - .claude/rules/brand.md
-          - context/brand/voice-and-tone.md
-          - context/brand/guardrails.md
-          - context/brand/glossary.md
-
-          A saída tem que ter duas partes:
-          1. O texto revisado
-          2. Uma lista das mudanças que você fez e o porquê de cada uma
-
-          Use quando alguém pedir revisão de e-mail, post, legenda,
-          copy ou qualquer texto que vá sair como comunicação da Carrot.
-          ---[FIM DO PROMPT]---
-
-          4. Esperar skill-creator gerar o SKILL.md (~10-15s)
-          5. Invocar /carrot-voice e colar o TEXTO RUIM:
-
-          ---[TEXTO RUIM PRO TESTE 1]---
-          A Carrot é uma startup revolucionária que tá disruptando
-          o mercado de créditos de carbono com uma plataforma game-changer.
-          Nosso time de ninjas tech vai transformar a indústria global
-          e salvar o planeta. Venha fazer parte dessa jornada — é hora
-          de dar um step up na sua carreira!
-          ---[FIM DO TEXTO RUIM]---
-
-          Esperado: skill devolve texto revisado + lista ~6 violações
-          (startup, revolucionária, disruptando, game-changer, ninjas tech,
-          overclaim, step up como pressão moral).
-
-          6. TESTE 2 (opcional, se timing permitir): pedir pra alguém
-          da sala jogar um parágrafo real de e-mail/post que escreveram
-          recentemente. Rodar a skill ao vivo com o texto deles.
-
-          7. Silêncio. Olhar pra sala. Falar:
-          "Isso foi uma skill. Agora vamos entender o que aconteceu."
-
-          8. Voltar pro deck → avançar pra slide 3.
-
-          ========================================
-          PLANO B — SE A DEMO TRAVAR
-          ========================================
-          - Se skill-creator não responder em ~20s OU
-          - Se /carrot-voice não aparecer no menu OU
-          - Se a rede cair:
-          → Finder → presentation/assets/cold-open-fallback.mp4
-          → Duplo-clique, play, fechar QuickTime
-          → Falar: "A mágica é real, mas a rede não é."
-          → Voltar pro deck, avançar pra slide 3
-
-          ========================================
-          BACKUP — TEXTO RUIM CURTO (se timing apertado)
-          ========================================
-          A Carrot é uma startup de tecnologia verde que vai
-          revolucionar o mundo dos créditos de carbono.
-        </aside>
-      </section>
+              </section>
 
       <!-- (After slide 2, Antonio leaves presentation mode and goes to Claude Desktop for the live demo. No slides during the 4-min demo.) -->
 
@@ -469,15 +392,7 @@
           <h2>O que<br>aconteceu?</h2>
           <p class="subtitle">Vamos desmontar o truque</p>
         </div>
-        <aside class="notes">
-          Slide 3 — divisor (5 segundos).
-
-          (Voltou do live demo agora)
-          - "Então... o que acabou de acontecer?"
-          - Tom de mistério / curiosidade
-          - Avança pro slide 4.
-        </aside>
-      </section>
+              </section>
 
       <!-- Slide 4: Uma skill é um arquivo de texto -->
       <section>
@@ -502,21 +417,7 @@ Depois, devolva:
         <div class="tip-box">
           Claude lê esse arquivo como se fosse você dando instrução no chat — só que reutilizável, em qualquer conversa.
         </div>
-        <aside class="notes">
-          Slide 4 — o arquivo (~3 min).
-
-          OBJETIVO: quebrar a ideia de que skill é mágica. É só um arquivo.
-
-          Pontos:
-          - "Uma skill é literalmente um arquivo de texto. Nada mágico."
-          - Apontar pra cada parte do SKILL.md projetado:
-            1. Frontmatter (entre ---): nome + descrição. É a ficha técnica.
-            2. Instruções em markdown: o playbook em linguagem natural.
-            3. Referência a arquivos de contexto: é o que deu o tom Carrot.
-          - "O skill-creator escreveu isso pra gente a partir do que eu pedi em linguagem natural"
-          - Destacar o tip box: "Se você sabe escrever um prompt bom, você sabe escrever uma skill."
-        </aside>
-      </section>
+              </section>
 
       <!-- Slide 5: Onde as skills moram -->
       <section>
@@ -555,22 +456,7 @@ Depois, devolva:
         <div class="tip-box">
           No workspace <strong>Carrot-AI</strong>, a pasta <code>.claude/skills/</code> já tem skills compartilhadas — <code>/daily-checkin</code>, <code>/daily-checkout</code>, <code>/ideate</code>. Essas são skills <strong>de projeto</strong>.
         </div>
-        <aside class="notes">
-          Slide 5 — localização (~2 min).
-
-          OBJETIVO: mostrar os 4 lugares onde skills moram e qual vocês vão usar.
-
-          Ler a tabela apontando:
-          - Pessoal (~/.claude/skills/): só você, em todos os projetos ← TODO MUNDO USA ISSO HOJE
-          - Projeto (.claude/skills/): compartilhado com quem abre o projeto
-          - Plugin: distribuído por terceiros (é o caso do skill-creator que vocês instalaram)
-          - Empresa: managed settings, raro pra quem não é admin
-
-          Destacar: "No Carrot-AI já tem skills compartilhadas — /daily-checkin, /daily-checkout, /ideate. Essas são skills de projeto."
-
-          Fechar: "Hoje vocês vão criar skills PESSOAIS. Se uma virar útil pro time inteiro, a gente transforma em skill de projeto."
-        </aside>
-      </section>
+              </section>
 
       <!-- Slide 6: Como Claude sabe quando usar -->
       <section>
@@ -596,21 +482,7 @@ Depois, devolva:
         <div class="tip-box">
           A <code>description</code> é o que faz Claude decidir. Quanto mais específica, melhor ele escolhe. <strong>"Revisa texto aplicando voz da Carrot"</strong> é muito melhor que <strong>"Skill de texto"</strong>.
         </div>
-        <aside class="notes">
-          Slide 6 — invocação (~2 min).
-
-          OBJETIVO: mostrar que tem 2 formas de usar uma skill.
-
-          Coluna 1 (Você chama): digita / no chat, autocomplete mostra, enter. Imperativo.
-          Coluna 2 (Claude decide): você escreve em linguagem natural, Claude lê o description de todas as skills disponíveis e invoca a que combinar.
-
-          Exemplo vivo: "Se eu escrever 'revisa esse texto pra mim', Claude olha todas as skills, acha uma cujo description bate, e invoca automaticamente."
-
-          Destaque do tip box: "A descrição é o que faz Claude decidir. Quanto mais específica, melhor."
-
-          Exemplo: 'Revisa texto aplicando voz da Carrot' é muito melhor que 'Skill de texto'.
-        </aside>
-      </section>
+              </section>
 
       <!-- Slide 7: Quadro comparativo — Chat vs Projeto vs Skill vs Agente vs MCP -->
       <section>
@@ -665,26 +537,7 @@ Depois, devolva:
         <div class="tip-box">
           <strong>Ponto-chave:</strong> "Projeto" é dentro do Claude.ai (app web do navegador). "Skill" é no Desktop + sistema de arquivos — roda em qualquer sessão, em qualquer lugar.
         </div>
-        <aside class="notes">
-          Slide 7 — O GRANDE MAPA (~4 min, é o slide mais importante da primeira metade).
-
-          Este slide resolve a confusão conceitual que TODO mundo do X-Ray mencionou.
-          Especificamente o Paulo perguntou: "qual a diferença entre projeto e skill?"
-
-          Ler a tabela com calma, coluna por coluna:
-          - Chat: conversa única, morre quando acaba
-          - Projeto: conversa com contexto fixo, dentro do Claude.ai (app WEB do navegador)
-          - Skill: playbook invocável, mora no sistema de arquivos, roda em qualquer lugar ← O FOCO DE HOJE
-          - Agente: skill + ferramentas + identidade (versão avançada, não vamos entrar hoje)
-          - MCP: ponte pra ferramenta externa (Notion, Gmail, Granola, etc.)
-
-          PONTO-CHAVE pra reforçar duas vezes:
-          "Projeto é no Claude.ai, app do navegador. Skill é no Desktop + sistema de arquivos. Por isso skill roda em qualquer sessão, em qualquer conversa."
-
-          PAUSA: perguntar à sala — "alguma dúvida até aqui? Ficou claro?"
-          Esperar de verdade 3-5 segundos antes de avançar.
-        </aside>
-      </section>
+              </section>
 
       <!-- Slide 8: Anatomia do SKILL.md -->
       <section>
@@ -710,24 +563,7 @@ Depois, devolva:
         <div class="tip-box">
           Se você já sabe escrever um prompt bom, você já sabe escrever uma skill. A diferença é que agora ele fica salvo e reutilizável.
         </div>
-        <aside class="notes">
-          Slide 8 — anatomia (~2 min).
-
-          OBJETIVO: dissecar o SKILL.md em 2 partes principais.
-
-          Coluna 1 — Frontmatter YAML (entre ---):
-          - name: vira o slash command
-          - description: Claude usa pra decidir ativação
-          - outros campos opcionais (allowed-tools, argument-hint) — mencionar rapidamente, não dwell
-
-          Coluna 2 — Corpo markdown:
-          - As instruções que Claude segue
-          - Pode referenciar outros arquivos (vai ser o próximo slide)
-          - Quanto mais claro, melhor
-
-          Fecha com o tip box: "Se você já sabe escrever um prompt bom, você já sabe escrever uma skill. A diferença é que agora ele fica salvo e reutilizável."
-        </aside>
-      </section>
+              </section>
 
       <!-- Slide 9: Skills podem ler outros arquivos -->
       <section>
@@ -743,25 +579,7 @@ Depois, devolva:
           <li><code>context/company.md</code> — o que a Carrot é, missão, produtos</li>
           <li>Qualquer arquivo seu no workspace</li>
         </ul>
-        <aside class="notes">
-          Slide 9 — o super-poder (~3 min).
-
-          OBJETIVO: essa é a feature MATADORA. A skill do cold open só funcionou porque leu o brand.md — sem copiar o conteúdo.
-
-          Pontos:
-          - A skill apontou pra .claude/rules/brand.md e foi lá ler antes de executar
-          - Metáfora: "É como apontar pra um livro que você já tem em casa, em vez de ter que copiar o livro inteiro toda vez"
-          - Destacar o tip box
-
-          Exemplos universais (ler rápido):
-          - .claude/rules/brand.md — regras de voz
-          - context/brand/glossary.md — termos oficiais
-          - context/company.md — missão e produtos
-          - Qualquer arquivo seu no workspace
-
-          FECHAMENTO: "Isso é o que permite skills serem pessoais MAS consistentes com o tom da empresa. Cada um faz a sua, todas falam a mesma voz."
-        </aside>
-      </section>
+              </section>
 
       <!-- Slide 10: Skills podem rodar código (menção rápida) -->
       <section>
@@ -771,19 +589,7 @@ Depois, devolva:
         <div class="tip-box">
           Hoje a gente foca em skills <strong>só com texto</strong> — é 80% do valor e é o que dá pra aprender em 1h. Mas saiba que dá pra ir muito além quando você se sentir confortável.
         </div>
-        <aside class="notes">
-          Slide 10 — menção rápida (~1 min, NÃO MAIS).
-
-          Objetivo: plantar a semente de que skills podem ir muito além de texto, sem entrar em detalhe.
-
-          Falar rápido:
-          "Skills podem rodar scripts: Python, shell, qualquer coisa. Gerar visualizações, buscar dados, chamar APIs."
-
-          "Hoje a gente foca em texto — é 80% do valor. Mas saibam que existe esse outro nível quando vocês se sentirem confortáveis."
-
-          NÃO demonstrar. NÃO dwell. Avançar.
-        </aside>
-      </section>
+              </section>
 
       <!-- Slide 11: Como criar — 3 caminhos -->
       <section>
@@ -814,19 +620,7 @@ Depois, devolva:
         <div class="tip-box">
           <strong>Hoje vocês vão usar o caminho 1.</strong> É o mais rápido pra ver a mágica acontecer.
         </div>
-        <aside class="notes">
-          Slide 11 — os 3 caminhos (~2 min).
-
-          Ler os 3 em ordem:
-          1. /skill-creator: o caminho mais simples. Foi o que vocês viram no cold open.
-          2. Criar arquivo manualmente: você cria a pasta em ~/.claude/skills/nome/ e escreve o SKILL.md no editor (VS Code, etc.)
-          3. Skill de projeto: compartilhada com o time inteiro, commitada pela Engineering no workspace Carrot-AI.
-
-          DESTACAR bem forte: "Hoje vocês vão usar o CAMINHO 1. É o mais rápido pra ver a mágica acontecer."
-
-          Caminho 2 e 3 ficam pra depois, quando se sentirem confortáveis.
-        </aside>
-      </section>
+              </section>
 
       <!-- Slide 12: Boas práticas -->
       <section>
@@ -848,20 +642,7 @@ Depois, devolva:
             <strong class="orange">Se repetir 3+ vezes, vira skill</strong> — é a regra mais simples
           </li>
         </ul>
-        <aside class="notes">
-          Slide 12 — boas práticas (~2 min).
-
-          5 regras, ler cada uma com ênfase:
-
-          1. Descrição específica — "revisa texto aplicando voz da Carrot" é muito melhor que "skill de texto"
-          2. Começa simples — 5 linhas que funcionam &gt; 50 linhas quebradas
-          3. Testa com exemplo real — cola um texto de verdade, não exemplo fictício
-          4. Referencia contexto existente — brand.md, glossary.md, company.md
-          5. Se repetir 3+ vezes, vira skill ← A regra mais fácil de lembrar
-
-          Fala o 5 por último e dá um peso maior: "Essa é a heurística mais simples. Se você repetir 3+ vezes, é porque virou um playbook — e playbook vira skill."
-        </aside>
-      </section>
+              </section>
 
       <!-- Slide 13: Section divider — "Agora vai você" -->
       <section class="split-slide">
@@ -870,14 +651,7 @@ Depois, devolva:
           <h2>Agora<br>vai você</h2>
           <p class="subtitle">Hands-on: criando sua primeira skill</p>
         </div>
-        <aside class="notes">
-          Slide 13 — transição de energia (5 segundos).
-
-          "Agora vai você. Tempo de parar de ouvir e começar a fazer."
-
-          Avança pro slide 14.
-        </aside>
-      </section>
+              </section>
 
       <!-- === BLOCO 3: HANDS-ON === -->
 
@@ -904,21 +678,7 @@ Depois, devolva:
             </ul>
           </div>
         </div>
-        <aside class="notes">
-          Slide 14 — a missão (~1 min).
-
-          Ler o desafio da coluna esquerda em voz alta:
-          "Pensem em alguma coisa que vocês já pediram pro Claude MAIS de 3 vezes essa semana. Ou algo chato e repetitivo que fazem toda semana. Vamos transformar isso em uma skill."
-
-          Apontar pra coluna direita e enfatizar as regras:
-          - Real, não fictício
-          - Começar simples
-          - Usar /skill-creator
-          - Testar com caso real
-
-          "Vocês têm 40 minutos. A partir de agora."
-        </aside>
-      </section>
+              </section>
 
       <!-- Slide 15: Banco de ideias por área -->
       <section>
@@ -968,16 +728,7 @@ Depois, devolva:
             </td>
           </tr>
         </table>
-        <aside class="notes">
-          Slide 15 — destrava quem tá em branco (~1 min).
-
-          "Se você travou em 'não sei o que criar', começa aqui. Olha pelo seu time. Essas são só sugestões, não obrigatórias."
-
-          NÃO ler tudo. Apontar pros times mais representados na sala (provavelmente Design, Ops, Business).
-
-          Fechar: "Mas nada impede de você criar algo totalmente diferente. A skill é SUA. Use pra resolver SUA dor."
-        </aside>
-      </section>
+              </section>
 
       <!-- Slide 16: Travou? Chama um engineer -->
       <section>
@@ -999,24 +750,7 @@ Depois, devolva:
         <div class="warning-box">
           <strong>Travou?</strong> Engineers na sala são buddies informais. Levantou a mão, a gente senta junto. Ninguém sai sem ter pelo menos uma skill funcionando.
         </div>
-        <aside class="notes">
-          Slide 16 — timing (~1 min de explicação + 40 min de hands-on).
-
-          Ler a tabela passo a passo:
-          - 0-10 min: escolher a ideia e descrever em 1 frase
-          - 10-30 min: usar /skill-creator e ajustar o resultado
-          - 30-40 min: testar com caso real
-
-          Destacar o warning box:
-          "Travaram? Engineers na sala são buddies informais. Levantou a mão, a gente senta junto. Ninguém sai sem ter pelo menos uma skill funcionando."
-
-          LEMBRETE IMPORTANTE PRO ANTONIO: briefar engineers ANTES do workshop na porta da sala — "se alguém levantar a mão do seu lado, ajuda. Não precisa ser perfeito."
-
-          AÇÃO CONCRETA: "Começamos AGORA. Eu vou circulando pela sala. Se precisar, grita."
-
-          (Inicia cronômetro visível de 40 min e começa a circular pela sala)
-        </aside>
-      </section>
+              </section>
 
       <!-- === BLOCO 4: SHOW-AND-TELL + FECHAMENTO === -->
 
@@ -1027,18 +761,7 @@ Depois, devolva:
           <h2>Mostra o que<br>você criou</h2>
           <p class="subtitle">Show &amp; tell · 2 minutos por pessoa</p>
         </div>
-        <aside class="notes">
-          Slide 17 — transição pro show-and-tell (5 segundos).
-
-          (40 minutos de hands-on se passaram)
-
-          "Chegamos no show. Quem quer mostrar o que criou?"
-
-          Se ninguém levantar a mão em 5 segundos: chamar diretamente Thiago, Marcelo ou Paulo (eles toparam).
-
-          Avança pro slide 18 depois de 4-5 pessoas mostrarem (2 min cada).
-        </aside>
-      </section>
+              </section>
 
       <!-- Slide 18: Próximos passos -->
       <section>
@@ -1057,20 +780,7 @@ Depois, devolva:
             <span class="small muted">Qualquer dúvida de skill, pergunta lá. Engineering responde.</span>
           </li>
         </ul>
-        <aside class="notes">
-          Slide 18 — próximos passos (~2 min).
-
-          Ler os 3 bullets devagar:
-
-          1. Sua skill vai evoluir — "Não é peça de museu, é ferramenta. Usem essa semana, voltem e refinem."
-
-          2. Compartilha o que funciona — "Se uma skill sua é útil pro time inteiro, Engineering pode transformar em skill de projeto no workspace compartilhado. Me avisa no Slack."
-
-          3. Canal #carrot-ai no Slack — "Qualquer dúvida sobre skill, pergunta lá. Engineering tá de plantão."
-
-          Fechar: "O workshop acaba aqui, mas a prática começa amanhã cedo."
-        </aside>
-      </section>
+              </section>
 
       <!-- Slide 19: Fechamento -->
       <section class="big-quote" data-background-color="#003235">
@@ -1078,19 +788,7 @@ Depois, devolva:
         <div class="footer-cta" style="margin-top: 60px;">
           Qualquer dúvida · <strong>#carrot-ai</strong> no Slack
         </div>
-        <aside class="notes">
-          Slide 19 — punchline de fechamento (~30 segundos).
-
-          Ler a frase DEVAGAR, pausando:
-          "Se você repetir... vira skill."
-
-          Pausa de 2 segundos.
-
-          "Obrigado pelo tempo de vocês. Qualquer dúvida, #carrot-ai no Slack. Bom trabalho."
-
-          (Aguardar aplausos, agradecer, encerrar)
-        </aside>
-      </section>
+              </section>
 
     </div>
   </div>
